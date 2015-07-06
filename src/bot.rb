@@ -17,8 +17,14 @@ class BotClass
   end
 
   def setup_message_logger
-    @bot.on :text do |text|
-      Logger
+    @bot.on :anything, block: false do
+      @logger.log(message)
+    end
+  end
+
+  def setup_command_handler
+    @bot.on :text do
+
     end
   end
 

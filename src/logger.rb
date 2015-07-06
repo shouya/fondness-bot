@@ -93,7 +93,7 @@ class Logger
 
 
   def dump_user(user)
-    name = user.first_name
+    name =  user.first_name
     name += " #{user.last_name}" if user.last_name
     name += '('
     name += user.username if user.username
