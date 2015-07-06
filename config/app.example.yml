@@ -1,0 +1,25 @@
+
+users:
+  cres:
+    ids:
+      - 52177891
+      - 42294863
+    nickname: Cres
+    aliases:
+      - c
+  shou:
+    ids:
+      - 48273646
+    nickname: Shou
+    aliases:
+      - s
+  group:
+    ids:
+      - 2998214
+    nickname: Chat Group
+    aliases:
+      - g
+
+telegram:
+  token: '<your-token>'
+  refresh_interval: 1

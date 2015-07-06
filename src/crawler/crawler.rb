@@ -4,7 +4,6 @@ require 'json'
 require 'recursive_open_struct'
 
 require_relative 'twitter_api_wrapper'
-require_relative 'task_queue'
 
 class Crawler
   CONFIG_PATH = File.expand_path('../../config/crawler.json', __FILE__)
