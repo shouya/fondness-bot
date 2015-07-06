@@ -1,0 +1,73 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activesupport (4.2.3)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    addressable (2.3.8)
+    buftok (0.2.0)
+    domain_name (0.5.24)
+      unf (>= 0.0.5, < 1.0.0)
+    equalizer (0.0.11)
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
+    http (0.6.4)
+      http_parser.rb (~> 0.6.0)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
+    http_parser.rb (0.6.0)
+    i18n (0.7.0)
+    json (1.8.3)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
+    mime-types (2.6.1)
+    minitest (5.7.0)
+    multipart-post (2.0.0)
+    naught (1.0.0)
+    netrc (0.10.3)
+    recursive-open-struct (0.6.5)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
+    sequel (4.24.0)
+    simple_oauth (0.3.1)
+    sqlite3 (1.3.10)
+    telegram_bot_ruby (0.1.3)
+      activesupport
+      rest-client
+    thread (0.2.0)
+    thread_safe (0.3.5)
+    twitter (5.14.0)
+      addressable (~> 2.3)
+      buftok (~> 0.2.0)
+      equalizer (~> 0.0.9)
+      faraday (~> 0.9.0)
+      http (~> 0.6.0)
+      http_parser.rb (~> 0.6.0)
+      json (~> 1.8)
+      memoizable (~> 0.4.0)
+      naught (~> 1.0)
+      simple_oauth (~> 0.3.0)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  recursive-open-struct
+  sequel
+  sqlite3
+  telegram_bot_ruby
+  thread
+  twitter
+
+BUNDLED WITH
+   1.10.3
