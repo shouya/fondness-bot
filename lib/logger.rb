@@ -2,9 +2,9 @@ require_relative 'db'
 require_relative 'config'
 require_relative 'bot'
 
-require_relative 'active_support'
+require 'active_support'
 
-class Logger
+class MessageLogger
   def log(env, message)
     return unless wanted?(message)
 
@@ -15,7 +15,7 @@ class Logger
   end
 
   def send_chat_action(env, message)
-    return unless Config.telegram.logging_status.present?
+    return unless Config.telegram.logging_status.nil?
 
     env.instance_eval do
       send_chat_action(message.chat,
@@ -35,12 +35,12 @@ class Logger
   end
 
   def insert_db(record)
-    uniq_keys message.slice(:message_id, :from, :chat)
-    db_rec = DB.message.where(uniq_keys)
+    uniq_keys = record.slice(:message_id, :from, :chat)
+    db_rec = DB.messages.where(uniq_keys)
 
     return :dup if db_rec.count >= 1
 
-    DB.message.insert(record)
+    DB.messages.insert(record)
     return :ok
   end
 
@@ -48,7 +48,7 @@ class Logger
     rec = {
       message_id: message.id,
       from: message.from.id,
-      chat: message.to.id,
+      to: message.chat.id,
       type: message.type.to_s,
       created_at: message.date,
       logged_at: Time.now

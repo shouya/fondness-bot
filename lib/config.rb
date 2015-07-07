@@ -1,4 +1,5 @@
+require 'settingslogic'
 
-class Config < SettingsLogic
-  source File.expand_path('../config/config.yml', __FILE__)
+class Config < Settingslogic
+  source File.expand_path('../../config/app.yml', __FILE__)
 end

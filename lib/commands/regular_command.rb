@@ -1,5 +1,5 @@
 module Commands
-  def RegularCommand(cmd_name)
+  def self.RegularCommand(cmd_name)
     Class.new do
       attr_accessor :command
 
@@ -7,8 +7,8 @@ module Commands
         @command = cmd_name
       }
 
-      define_method(:match?)  { |env, msg, args|
-        x.downcase == cmd_name.downcase
+      define_method(:match?)  { |env, cmd, args|
+        cmd.downcase == cmd_name.downcase
       }
 
       define_method(:pass_through?) { false }
@@ -20,4 +20,5 @@ module Commands
       }
     end
   end
+
 end

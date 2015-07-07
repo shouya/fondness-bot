@@ -9,6 +9,6 @@ gem 'sqlite3'
 gem 'settingslogic'
 gem 'recursive-open-struct'
 
-gem 'telegram_bot_ruby'
+gem 'telegram_bot_ruby', github: 'shouya/telegram_bot_ruby'
 
 gem 'activesupport'

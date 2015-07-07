@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/shouya/telegram_bot_ruby.git
+  revision: 5851160f316883ca009c47f535620d28ad02a58d
+  specs:
+    telegram_bot_ruby (0.1.5)
+      activesupport
+      rest-client
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -37,9 +45,6 @@ GEM
     settingslogic (2.0.9)
     simple_oauth (0.3.1)
     sqlite3 (1.3.10)
-    telegram_bot_ruby (0.1.5)
-      activesupport
-      rest-client
     thread (0.2.0)
     thread_safe (0.3.5)
     twitter (5.14.0)
@@ -68,7 +73,7 @@ DEPENDENCIES
   sequel
   settingslogic
   sqlite3
-  telegram_bot_ruby
+  telegram_bot_ruby!
   thread
   twitter
 
