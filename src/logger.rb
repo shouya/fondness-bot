@@ -5,19 +5,22 @@ require_relative 'bot'
 require_relative 'active_support'
 
 class Logger
-  def log(message)
+  def log(env, message)
     return unless wanted?(message)
 
-    send_chat_action(message)
+    send_chat_action(env, message)
 
     record = parse_record(message)
     insert_db(record)
   end
 
-  def send_chat_action(message)
+  def send_chat_action(env, message)
     return unless Config.telegram.logging_status.present?
-    Bot.send_chat_action(message.chat,
-                         Config.telegram.logging_status)
+
+    env.instance_eval do
+      send_chat_action(message.chat,
+                       Config.telegram.logging_status)
+    end
   end
 
   def wanted?(message)

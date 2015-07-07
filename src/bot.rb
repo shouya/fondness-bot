@@ -1,7 +1,8 @@
 require_relative 'logger'
+require_relative 'commander'
 require_relative 'forwardable'
 
-class BotClass
+class Bot
   extend Forwardable
 
   def_delegators :@bot, :send_chat_action
@@ -14,21 +15,26 @@ class BotClass
                 interval: Config.telegram.poll_interval)
 
     @logger = Logger.new(self)
+    @commander = Commander.new(self)
+
+    setup_message_logger
+    setup_command_handlers
   end
 
   def setup_message_logger
     @bot.on :anything, block: false do
-      @logger.log(message)
+      @logger.log(self, message)
     end
   end
 
-  def setup_command_handler
-    @bot.on :text do
-
+  def setup_command_handlers
+    @bot.on :command, block: false do |cmd, *args|
+      @commander.handle(self, cmd, args)
     end
   end
 
+  def start!
+    @bot.start!
+  end
 
 end
-
-Bot = BotClass.instance
