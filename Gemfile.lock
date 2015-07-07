@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/shouya/telegram_bot_ruby.git
-  revision: 5851160f316883ca009c47f535620d28ad02a58d
+  revision: 00a440d42abd01a0dfe443328e4815fe80facce6
   specs:
-    telegram_bot_ruby (0.1.5)
+    telegram_bot_ruby (0.1.6)
       activesupport
       rest-client
 

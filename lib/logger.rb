@@ -11,19 +11,21 @@ class MessageLogger
     send_chat_action(env, message)
 
     record = parse_record(message)
+    p record
     insert_db(record)
   end
 
   def send_chat_action(env, message)
-    return unless Config.telegram.logging_status.nil?
+    logging_action = Config.telegram.logging_status
+    return if logging_action.nil?
 
     env.instance_eval do
-      send_chat_action(message.chat,
-                       Config.telegram.logging_status)
+      send_chat_action(logging_action)
     end
   end
 
   def wanted?(message)
+    return false if message.text.to_s.start_with?('/')
     case message.type
     when :text, :photo, :audio, :document,
          :sticker, :video, :location,
@@ -50,8 +52,9 @@ class MessageLogger
       from: message.from.id,
       to: message.chat.id,
       type: message.type.to_s,
-      created_at: message.date,
-      logged_at: Time.now
+      created_at: Time.at(message.date),
+      logged_at: Time.now,
+      text: message.text
     }
 
     media = parse_media(message)

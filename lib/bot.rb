@@ -26,7 +26,6 @@ class Bot
   def setup_message_logger
     logger = @logger
     @bot.on :anything, pass: true do
-      p message
       logger.log(self, message)
     end
   end
@@ -39,6 +38,10 @@ class Bot
   end
 
   def start!
+    trap :INT do
+      @bot.stop!
+    end
+
     @bot.start!
   end
 

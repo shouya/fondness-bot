@@ -1,4 +1,5 @@
 require_relative 'commands/sell_moe'
+require_relative 'commands/search'
 
 class Commander
   include Commands
@@ -8,7 +9,8 @@ class Commander
   def initialize(bot)
     @bot = bot
     @handlers = [
-      SellMoe
+      SellMoe,
+      Search
     ].map(&:new)
   end
 
