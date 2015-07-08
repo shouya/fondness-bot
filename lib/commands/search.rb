@@ -2,20 +2,33 @@
 require_relative 'regular_command'
 require_relative 'helpers/timezone'
 require_relative 'helpers/user_util'
+require_relative 'helpers/pagination'
+require_relative 'helpers/parse_query'
+require_relative 'helpers/keyword_query'
 
 module Commands
   class Search < RegularCommand 'search'
+    include QueryParser
+    include Pagination
+    include KeywordQuery
+
     SEPARATOR_WIDTH = 40
 
     def match?(env, cmd, args)
       %w[s search].include? cmd.downcase
     end
 
-    def search_keyword(kws, limit = 5, page = 1)
-      floating_kws = kws.map {|kw| "%#{kw}%" }
-      DB.messages
-        .grep(:text, floating_kws)
-        .limit(limit, (page - 1) * limit)
+    def search(args, limit = 20, page = 1)
+      @query = parse_query(args)
+
+      @dataset = keyword_query(DB.messages,
+                               :text,
+                               @query[:keywords])
+      @pagination = paginate_query(@dataset,
+                                   @query[:paging])
+      # dataset = orderify_query(datatset, query[:order])
+
+      @pagination[:result]
     end
 
     def encapsulate_result(messages, kws)
@@ -25,17 +38,23 @@ module Commands
 
       @timezone = TimezoneConverter.new
 
-      out =  'search result for messages containing '
-      out << kws.join(', ')
+      out = 'search result'
+      if @query[:keywords] && !@query[:keywords].empty?
+        out << ' for ['
+        out << @query[:keywords].join(' ')
+        out << ']'
+      end
       out << "\n"
+
       messages.each_with_index do |message, idx|
         out << (idx+1).to_s.center(SEPARATOR_WIDTH, '-') << "\n"
         out << multi_time_string(message[:created_at].to_i) << "\n"
-        p message[:from]
-        p UserUtil.instance_eval { @id_map }
         out << UserUtil.from_id(message[:from]).name << ' said: '
         out << message[:text] << "\n"
       end
+
+      out << '_' * SEPARATOR_WIDTH << "\n"
+      out << pagination_text(@pagination) << "\n"
 
       out
     end
@@ -48,7 +67,7 @@ module Commands
     end
 
     def handle(env, cmd, args)
-      msgs = search_keyword(args)
+      msgs = search(args)
       out = encapsulate_result(msgs, args)
 
       env.instance_eval do

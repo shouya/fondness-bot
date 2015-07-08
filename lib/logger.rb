@@ -11,7 +11,6 @@ class MessageLogger
     send_chat_action(env, message)
 
     record = parse_record(message)
-    p record
     insert_db(record)
   end
 

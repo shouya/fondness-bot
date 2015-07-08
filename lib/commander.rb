@@ -20,5 +20,13 @@ class Commander
       handler.handle(env, cmd_name, args)
       break unless handler.pass_through?
     end
+
+  rescue
+
+    env.instance_eval do
+      send_message 'bot: error'
+      send_message $!.message
+    end
+
   end
 end
