@@ -13,6 +13,7 @@ users:
     nickname: Shou
     aliases:
       - s
+    timezone: "Eastern Time (US & Canada)"
   group:
     ids:
       - 2998214
@@ -24,3 +25,14 @@ telegram:
   token: '<your-token>'
   refresh_interval: 1
   logging_status: ~
+
+
+
+fondbot:
+  public: false
+  authorized:
+#    - shou
+    - cres
+  denial_message: 對不起qwq，主人不讓人家和陌生人搭話個說ww
+  pagination:
+    default_count: 10
