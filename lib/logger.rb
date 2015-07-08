@@ -78,7 +78,7 @@ class MessageLogger
     when :audio
       media = "#{message.audio.duration}s"
     when :document
-      media = message.file_name
+      media = message.document.file_name
     when :sticker
       media = message.text
     when :video
