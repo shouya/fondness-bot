@@ -24,14 +24,15 @@ class Commander
     }
 
     if not allowed?(user_id)
-      env.instance_eval do
+      env.instance_eval {
         reply Config.fondbot.denial_message
-      end
+      }
+      return
     end
 
     @handlers.each do |handler|
       next unless handler.match?(env, cmd_name, args)
-      # handler.handle(env, cmd_name, args)
+      handler.handle(env, cmd_name, args)
       break unless handler.pass_through?
     end
 
@@ -40,7 +41,7 @@ class Commander
     env.instance_eval do
       msg =  "bot: error\n"
       msg << $!.message << "\n"
-      msg << $!.backtrace.join("\n")
+      msg << $!.backtrace.first(5).join("\n")
       send_message msg
     end
 
