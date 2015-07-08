@@ -18,7 +18,7 @@ module Pagination
       page: page,
       count: count,
       total: total,
-      total_page: (opt[:total] / opt[:count].to_f).ceil
+      total_page: (total / count.to_f).ceil
     }
   end
 
@@ -34,7 +34,7 @@ module Pagination
   def pagination_keyboard(cmd, opt, args)
     _, np = args.partition { |x| x.start_with?('!') }
 
-    cmd_prefix = "#{cmd} #{np.join(' ')}"
+    cmd_prefix = "/#{cmd} #{np.join(' ')}"
     cmd_suffix = opt[:count] == DEFAULT_COUNT ? '' : "!c#{opt[:count]}"
 
     btns = []
@@ -61,11 +61,15 @@ module Pagination
 
       case arg
       when /^\!p/
-        paging[:page]  = arg[2..-1].to_i || DEFAULT_PAGE
+        paging[:page]  = arg[2..-1].to_i
       when /^\!c/
-        paging[:count] = arg[2..-1].to_i || DEFAULT_COUNT
+        paging[:count] = arg[2..-1].to_i
       end
     end
+
+    paging[:page]  ||= DEFAULT_PAGE
+    paging[:count] ||= DEFAULT_COUNT
+
     paging
   end
 end

@@ -1,5 +1,6 @@
 require_relative 'commands/sell_moe'
 require_relative 'commands/search'
+require_relative 'commands/cancel'
 
 class Commander
   include Commands
@@ -9,6 +10,7 @@ class Commander
   def initialize(bot)
     @bot = bot
     @handlers = [
+      Cancel,
       SellMoe,
       Search
     ].map(&:new)
@@ -24,8 +26,10 @@ class Commander
   rescue
 
     env.instance_eval do
-      send_message 'bot: error'
-      send_message $!.message
+      msg =  "bot: error\n"
+      msg << $!.message << "\n"
+      msg << $!.backtrace.join("\n")
+      send_message msg
     end
 
   end

@@ -21,7 +21,7 @@ module Commands
     def search(args, limit = 20, page = 1)
       @query = parse_query(args)
 
-      @dataset = keyword_query(DB.messages,
+      @dataset = keyword_query(DB.messages.order {created_at.desc},
                                :text,
                                @query[:keywords])
       @pagination = paginate_query(@dataset,
@@ -38,7 +38,7 @@ module Commands
 
       @timezone = TimezoneConverter.new
 
-      out = 'search result'
+      out = 'search '
       if @query[:keywords] && !@query[:keywords].empty?
         out << ' for ['
         out << @query[:keywords].join(' ')
@@ -47,9 +47,9 @@ module Commands
       out << "\n"
 
       messages.each_with_index do |message, idx|
-        out << (idx+1).to_s.center(SEPARATOR_WIDTH, '-') << "\n"
+        out << (message[:id]).to_s.center(SEPARATOR_WIDTH, '-') << "\n"
         out << multi_time_string(message[:created_at].to_i) << "\n"
-        out << UserUtil.from_id(message[:from]).name << ' said: '
+        out << UserUtil.from_id(message[:from]).name << ': '
         out << message[:text] << "\n"
       end
 
@@ -70,8 +70,20 @@ module Commands
       msgs = search(args)
       out = encapsulate_result(msgs, args)
 
+      keyboard = [
+        [
+          *pagination_keyboard(cmd, @pagination, args),
+          "/cancel"
+        ]
+      ].transpose
+
+      markup = {
+        keyboard: keyboard,
+        selective: true
+      }
+
       env.instance_eval do
-        send_message(out)
+        send_message(out, reply_markup: markup)
       end
     end
 
