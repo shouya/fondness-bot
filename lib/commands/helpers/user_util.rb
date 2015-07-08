@@ -27,6 +27,10 @@ class UserUtilClass
   def from_alias(al)
     @alias_map[al]
   end
+
+  def from_name(name)
+    @users[name]
+  end
 end
 
 UserUtil = UserUtilClass.instance
