@@ -79,7 +79,7 @@ module Commands
 
       markup = {
         keyboard: keyboard,
-        selective: true
+        selective: false
       }
 
       env.instance_eval do
