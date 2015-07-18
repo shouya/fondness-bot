@@ -2,23 +2,31 @@
 module KeywordQuery
   include Sequel
 
+  QUOTES = %w[“” “" "" ‘’ ‘' '' 「」 『』]
+
   def parse_keywords_sub(kws)
     case
     when Array === kws
       { or: kws.map { |x| parse_keywords_sub(x) } }
-    when String === kws &&
-         kws.start_with?('"') &&
-         kws.end_with?('"')
-      { exact: kws }
+    when String === kws && is_quoted?(kws)
+      { exact: kws[1..-2] }
     when String === kws
       { partial: kws }
     end
   end
 
+  def is_quoted?(kws)
+    QUOTES.each do |qmark|
+      ql, qr = qmark.split
+      return true if kws.start_with?(ql) and kws.end_with?(qr)
+    end
+    false
+  end
+
   def parse_keywords(kws)
     {
       and: kws.map { |x|
-        parse_keywords_sub(x)
+        parse_keywords_sub(x.split('|'))
       }
     }
   end

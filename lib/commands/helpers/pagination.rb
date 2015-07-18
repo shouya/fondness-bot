@@ -23,7 +23,6 @@ module Pagination
   end
 
   def pagination_text(opt)
-    p opt
     out = 'page '
     out << opt[:page].to_s
     out << '/'
