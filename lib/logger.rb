@@ -85,7 +85,7 @@ class MessageLogger
       media = "#{v.width}x#{v.height}#{v.duration}"
     when :location
       l = message.location
-      media = "#{l.latitude},#{l.longtitude}"
+      media = "#{l.latitude},#{l.longitude}"
     when :member_entered
       media = dump_user(message.new_chat_participant)
     when :member_left
