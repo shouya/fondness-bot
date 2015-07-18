@@ -1,24 +1,20 @@
 require_relative 'auth'
-require_relative 'commands/sell_moe'
-require_relative 'commands/search'
-require_relative 'commands/cancel'
 
-class Commander
-  include Commands
+class Handler
   include Authenticate
 
   attr_accessor :bot
 
   def initialize(bot)
     @bot = bot
-    @handlers = [
-      Cancel,
-      SellMoe,
-      Search
-    ].map(&:new)
+    @handlers = []
   end
 
-  def handle(env, cmd_name, args)
+  def add_handler(handler)
+    @handlers << handler
+  end
+
+  def handle(env, *args)
     user_id = env.instance_eval {
       message.from.id
     }
@@ -31,8 +27,8 @@ class Commander
     end
 
     @handlers.each do |handler|
-      next unless handler.match?(env, cmd_name, args)
-      handler.handle(env, cmd_name, args)
+      next unless handler.match?(env, *args)
+      handler.handle(env, *args)
       break unless handler.pass_through?
     end
 

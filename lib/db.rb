@@ -14,6 +14,10 @@ class DBClass
     @db[:messages]
   end
 
+  def lists
+    @db[:lists]
+  end
+
   def cursors
     @db[:cursors]
   end

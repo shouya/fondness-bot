@@ -2,7 +2,8 @@ require 'forwardable'
 require 'telegram_bot'
 
 require_relative 'logger'
-require_relative 'commander'
+require_relative 'text_handler'
+require_relative 'command_handler'
 
 class Bot
   extend Forwardable
@@ -16,11 +17,15 @@ class Bot
     @bot.listen(method: :poll,
                 interval: Config.telegram.poll_interval)
 
-    @logger = MessageLogger.new
-    @commander = Commander.new(self)
+    @logger          = MessageLogger.new
+
+    @text_handler    = TextHandler.new(self)
+    @command_handler = CommandHandler.new(self)
 
     setup_message_logger
+
     setup_command_handlers
+    setup_text_handlers
   end
 
   def setup_message_logger
@@ -31,9 +36,16 @@ class Bot
   end
 
   def setup_command_handlers
-    commander = @commander
+    commander = @command_handler
     @bot.on :command, pass: true do |cmd, *args|
       commander.handle(self, cmd, args)
+    end
+  end
+
+  def setup_text_handlers
+    commander = @text_handler
+    @bot.on :text, pass: true do |text|
+      commander.handle(self, text)
     end
   end
 
