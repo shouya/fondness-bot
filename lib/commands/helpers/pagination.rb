@@ -35,6 +35,7 @@ module Pagination
 
     cmd_prefix = "/#{cmd} #{np.join(' ')}"
     cmd_suffix = opt[:count] == DEFAULT_COUNT ? '' : "!c#{opt[:count]}"
+    cmd_suffix += ' !!' if args.include?('!!')
 
     btns = []
 
