@@ -70,12 +70,16 @@ module Commands
       msgs = search(args)
       out = encapsulate_result(msgs, args)
 
-      keyboard = [
-        [
-          *pagination_keyboard(cmd, @pagination, args),
-          "/cancel"
-        ]
-      ].transpose
+      if args.include?('!!')
+        keyboard = [
+          [
+            *pagination_keyboard(cmd, @pagination, args),
+            "/cancel"
+          ]
+        ].transpose
+      else
+        keyboard = nil
+      end
 
       markup = {
         keyboard: keyboard,
