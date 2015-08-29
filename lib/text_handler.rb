@@ -1,6 +1,7 @@
 require_relative 'handler'
 
 require_relative 'commands/list'
+require_relative 'commands/wiki'
 
 class TextHandler < Handler
   include Commands
@@ -8,7 +9,10 @@ class TextHandler < Handler
   def initialize(*)
     super
 
-    [List].each do |x|
+    [
+      List,
+      Wikipedia
+    ].each do |x|
       add_handler(x.new)
     end
   end

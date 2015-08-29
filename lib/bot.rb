@@ -5,6 +5,8 @@ require_relative 'logger'
 require_relative 'text_handler'
 require_relative 'command_handler'
 
+$session ||= {}
+
 class Bot
   extend Forwardable
 
