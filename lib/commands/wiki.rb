@@ -65,7 +65,7 @@ module Commands
     def construct_link(provider, keyword)
       case provider
       when "google"
-        "https://www.google.com/?q=#{e(keyword)}&ie=UTF-8"
+        "https://www.google.com/?q=#{e(keyword)}&oq=#{e(keyword)}&ie=UTF-8"
       when "baidu"
         "https://www.baidu.com/s?wd=#{e(keyword)}"
       when "wikipedia (zh)"
